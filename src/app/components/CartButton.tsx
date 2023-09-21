@@ -27,7 +27,7 @@ export default function CartButton() {
         </button>
       </SheetTrigger>
 
-      <SheetContent className="w-full sm:w-[600px]  ">
+      <SheetContent className="w-full sm:w-[600px]">
         <SheetHeader className="mb-10">
           <SheetTitle className="flex items-center gap-4 border-b pb-2">
             <SheetClose>
