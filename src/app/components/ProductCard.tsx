@@ -1,30 +1,79 @@
 "use client";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../providers/CartProvider";
+import { Button } from "@/components/ui/button";
+import { Star } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ProductCard(props: {
   id: string;
   name: string;
   img: string;
+  price: number;
 }) {
-  const cartContext = useContext(CartContext);
+  const { addItem } = useContext(CartContext);
+  const [hover, setHover] = useState(false);
+  const router = useRouter();
   return (
-    <article className="border h-60 flex flex-col rounded-lg overflow-clip">
-      <div className=" flex-1 relative">
-        <Image src={props.img} alt="thing" className="h-full w-full" fill />
-      </div>
-      <div className="flex justify-between p-1">
-        <h3>{props.name}</h3>
-        <button
-          onClick={() => {
-            cartContext.addProduct({ ...props });
-          }}
-          className="bg-red-600 text-sm text-white py-1 px-4 rounded"
-        >
-          + Cart
-        </button>
-      </div>
-    </article>
+    <div
+      // href={"/product/" + props.id}
+      className="group hover:cursor-pointer"
+      onClick={(e) => {
+        e.stopPropagation();
+        router.push("/product/" + props.id);
+        console.log(e);
+      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <article className="h-96 flex flex-col">
+        <div className=" flex-1 relative rounded overflow-clip">
+          <Image src={props.img} alt="thing" className="h-full w-full" fill />
+          {hover && (
+            <div className="absolute h-fit bottom-0 w-full  bg-black/50 transition-all flex items-end p-4 justify-center">
+              <Button
+                variant="ghost"
+                className="text-white border w-full"
+                onClick={(e) => {
+                  console.log("clicked button");
+                  e.stopPropagation();
+                  addItem(props, 1);
+                }}
+              >
+                Add to cart
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <div className="py-2">
+          <div className="flex justify-between">
+            <h3 className="font-semibold">{props.name}</h3>
+            <p className="font-semibold">$ {props.price}</p>
+          </div>
+
+          <div className="flex justify-between">
+            <div className="flex gap-1">
+              <Star size={14} className="fill-yellow-500 stroke-gray-400" />
+              <Star size={14} className="fill-yellow-500 stroke-gray-400" />
+              <Star size={14} className="fill-yellow-500 stroke-gray-400" />
+              <Star size={14} className="fill-yellow-500 stroke-gray-400" />
+              <Star size={14} className=" stroke-gray-400" />
+            </div>
+
+            {/* <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                addItem(props, 1);
+              }}
+              className=" text-s, text-white rounded h-fit flex gap-2 px-2"
+            >
+              <Plus size={12} /> Cart
+            </Button> */}
+          </div>
+        </div>
+      </article>
+    </div>
   );
 }

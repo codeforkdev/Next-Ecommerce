@@ -2,6 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Providers from "./providers/Providers";
+import Link from "next/link";
+import CartButton from "./components/CartButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +20,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="h-16 border-b sticky top-0 z-50 bg-white mb-10">
+            <nav className=" flex justify-between items-center px-6 h-full max-w-7xl mx-auto">
+              <Link href="/">Store</Link>
+              <CartButton />
+            </nav>
+          </div>
+          <div className="max-w-md sm:max-w-3xl lg:max-w-5xl px-4 sm:px-0 mx-auto">
+            {children}
+          </div>
+          <footer className="h-32 flex items-center justify-center bg-black text-white mt-10">
+            Footer Section
+          </footer>
+        </Providers>
       </body>
     </html>
   );
