@@ -15,10 +15,14 @@ import { ChevronLeft, Minus, Plus, ShoppingBag, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { round2 } from "@/lib/utils";
+import { createCheckoutSession } from "../actions/stripe";
+import { useRouter } from "next/navigation";
 
 export default function CartButton() {
   const { items, addItem, removeItem, subtotal, shipping, totalItems } =
     useContext(CartContext);
+
+  const router = useRouter();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -50,11 +54,11 @@ export default function CartButton() {
         <div className="flex flex-col flex-1 overflow-hidden ">
           <div className="flex items-center justify-between p-6">
             <p className="font-bold text-lg ">Cart</p>
-            <p>{items.reduce((acc, item) => acc + item.count, 0)} items</p>
+            <p>{totalItems} items</p>
           </div>
           <div className="h-full overflow-y-auto px-6">
             <ul className="flex flex-1 flex-col gap-4">
-              {items.map((item) => (
+              {items?.map((item) => (
                 <li key={item.id}>
                   <article className="flex h-32 gap-6">
                     <div className="w-32 relative rounded overflow-clip">
@@ -105,7 +109,25 @@ export default function CartButton() {
               <p>Estimated total </p>
               <p className="font-semibold">$ {round2(shipping + subtotal)}</p>
             </div>
-            <Button className="w-full">Checkout</Button>
+
+            <form
+              action={async (e) => {
+                const lineItems = items.map((item) => {
+                  return {
+                    name: item.name,
+                    price: round2(item.price),
+                    count: item.count,
+                    image: item.img,
+                  };
+                });
+                const sessionUrl = await createCheckoutSession(lineItems);
+                if (sessionUrl) router.push(sessionUrl);
+              }}
+            >
+              <Button type="submit" className="w-full">
+                Checkout
+              </Button>
+            </form>
           </div>
         </SheetFooter>
       </SheetContent>

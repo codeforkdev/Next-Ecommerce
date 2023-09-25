@@ -61,16 +61,6 @@ export default function ProductCard(props: {
               <Star size={14} className="fill-yellow-500 stroke-gray-400" />
               <Star size={14} className=" stroke-gray-400" />
             </div>
-
-            {/* <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                addItem(props, 1);
-              }}
-              className=" text-s, text-white rounded h-fit flex gap-2 px-2"
-            >
-              <Plus size={12} /> Cart
-            </Button> */}
           </div>
         </div>
       </article>

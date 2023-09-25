@@ -22,7 +22,9 @@ export const CartContext = createContext<CartContextType>({
 });
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useImmer<CartItem[]>([]);
+  const [items, setItems] = useImmer<CartItem[]>(
+    JSON.parse(window.localStorage.getItem("store_cart") ?? "[]")
+  );
   const [subtotal, setSubtotal] = useState(0);
   const [shipping, setShipping] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
@@ -34,6 +36,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
     setSubtotal(newSubtotal);
     setTotalItems(items.reduce((acc, item) => acc + item.count, 0));
+    window.localStorage.setItem("store_cart", JSON.stringify(items));
   }, [items]);
 
   useEffect(() => {

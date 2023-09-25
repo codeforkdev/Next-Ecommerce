@@ -18,23 +18,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>
-          <div className="h-16 border-b sticky top-0 z-50 bg-white mb-10">
+    <html lang="en" className="h-full">
+      <Providers>
+        <body className={inter.className + " h-full flex flex-col"}>
+          <div className="h-16 shrink-0 border-b sticky top-0 z-50 bg-white mb-10">
             <nav className=" flex justify-between items-center px-6 h-full max-w-7xl mx-auto">
               <Link href="/">Store</Link>
               <CartButton />
             </nav>
           </div>
-          <div className="max-w-md sm:max-w-3xl lg:max-w-5xl px-4 sm:px-0 mx-auto">
+          <div className="flex-1 max-w-md sm:max-w-3xl lg:max-w-5xl w-full px-4 sm:px-0 mx-auto">
             {children}
           </div>
-          <footer className="h-32 flex items-center justify-center bg-black text-white mt-10">
+          <footer className="h-32 shrink-0 flex items-center justify-center bg-black text-white mt-10">
             Footer Section
           </footer>
-        </Providers>
-      </body>
+        </body>
+      </Providers>
     </html>
   );
 }

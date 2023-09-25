@@ -1,12 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { CartContext } from "../providers/CartProvider";
 
-export default function AddProductToCart() {
+export default function AddProductToCart({
+  product,
+}: {
+  product: { id: string; name: string; img: string; price: number };
+}) {
   const [count, setCount] = useState(1);
+  const { addItem } = useContext(CartContext);
   const increment = () => setCount((prev) => prev + 1);
-  const decrement = () => setCount((prev) => (prev <= 1 ? 0 : prev - 1));
+  const decrement = () => setCount((prev) => (prev > 1 ? prev - 1 : prev));
 
   return (
     <div className="w-fit flex gap-6">
@@ -19,7 +25,16 @@ export default function AddProductToCart() {
           <Plus size={16} />
         </button>
       </div>
-      <Button className="text-sm">ADD TO CART</Button>
+      <Button
+        onClick={(e) => {
+          console.log("clicked button");
+          e.stopPropagation();
+          addItem(product, count);
+        }}
+        className="text-sm"
+      >
+        ADD TO CART
+      </Button>
     </div>
   );
 }
