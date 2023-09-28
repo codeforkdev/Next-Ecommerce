@@ -22,12 +22,19 @@ export const CartContext = createContext<CartContextType>({
 });
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useImmer<CartItem[]>(
-    JSON.parse(window.localStorage.getItem("store_cart") ?? "[]")
-  );
+  const [load, setLoad] = useState(false);
+  const [items, setItems] = useImmer<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState(0);
   const [shipping, setShipping] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
+
+  useEffect(() => {
+    setLoad(true);
+    let existingCart = window.localStorage.getItem("store_cart");
+    if (existingCart) {
+      setItems(JSON.parse(existingCart));
+    }
+  }, []);
 
   useEffect(() => {
     const newSubtotal = items.reduce(
@@ -36,7 +43,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
     setSubtotal(newSubtotal);
     setTotalItems(items.reduce((acc, item) => acc + item.count, 0));
-    window.localStorage.setItem("store_cart", JSON.stringify(items));
+    if (load === true) {
+      window.localStorage.setItem("store_cart", JSON.stringify(items));
+    }
   }, [items]);
 
   useEffect(() => {

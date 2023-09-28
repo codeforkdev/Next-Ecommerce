@@ -1,21 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { DevTool } from "@hookform/devtools";
 import * as z from "zod";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { DevTool } from "@hookform/devtools";
 import { insertProduct } from "../actions/form";
 
 const schema = z.object({
@@ -36,43 +26,32 @@ export default function NewProductForm() {
   });
 
   return (
-    <div className="shrink-0">
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button>Add Product</Button>
-        </DialogTrigger>
+    <form onSubmit={process} className="flex flex-col gap-4 text-black z-50">
+      <fieldset>
+        <Label htmlFor="name" className="mb-2 block">
+          Name
+        </Label>
+        <Input
+          autoFocus
+          onClick={() => console.log("click")}
+          id="name"
+          {...register("name")}
+          type="text"
+        />
+      </fieldset>
 
-        <DialogContent className="top-[25%]">
-          <DialogHeader>
-            <DialogTitle>New Product</DialogTitle>
-            <DialogDescription>
-              Add a now product to your inventory.
-            </DialogDescription>
-          </DialogHeader>
-
-          <form onSubmit={process} className="flex flex-col gap-4">
-            <fieldset>
-              <Label htmlFor="name" className="mb-2 block">
-                Name
-              </Label>
-              <Input id="name" {...register("name")} type="text" />
-            </fieldset>
-
-            <fieldset>
-              <Label htmlFor="price" className="mb-2 block">
-                Price
-              </Label>
-              <Input
-                id="price"
-                {...register("price", { valueAsNumber: true })}
-                type="number"
-              />
-            </fieldset>
-            <Button type="submit">Submit</Button>
-          </form>
-        </DialogContent>
-      </Dialog>
-      <DevTool control={control} />
-    </div>
+      <fieldset>
+        <Label htmlFor="price" className="mb-2 block">
+          Price
+        </Label>
+        <Input
+          onClick={() => console.log("click")}
+          id="price"
+          {...register("price", { valueAsNumber: true })}
+          type="number"
+        />
+      </fieldset>
+      <Button type="submit">Submit</Button>
+    </form>
   );
 }

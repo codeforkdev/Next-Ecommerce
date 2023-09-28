@@ -19,11 +19,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <Providers>
-        <body className={inter.className + " h-full flex flex-col"}>
+      <body className={inter.className + " h-full flex flex-col"}>
+        <Providers>
           <div className="h-16 shrink-0 border-b sticky top-0 z-50 bg-white mb-10">
             <nav className=" flex justify-between items-center px-6 h-full max-w-7xl mx-auto">
-              <Link href="/">Store</Link>
+              <Link href="/" className="cursor-pointer">
+                Store
+              </Link>
               <CartButton />
             </nav>
           </div>
@@ -33,8 +35,8 @@ export default function RootLayout({
           <footer className="h-32 shrink-0 flex items-center justify-center bg-black text-white mt-10">
             Footer Section
           </footer>
-        </body>
-      </Providers>
+        </Providers>
+      </body>
     </html>
   );
 }

@@ -1,13 +1,11 @@
 import { db } from "@/db";
 import NewProductForm from "./NewProductForm";
-import { DataTable } from "./products/data-table";
-import { columns } from "./products/columns";
+import { ProductsTable } from "./ProductsTable/ProductsTable";
+import { columns } from "./ProductsTable/columns";
+import { faker } from "@faker-js/faker";
 
 export default async function Page() {
-  const products = await db.query.product.findMany();
-  return (
-    <>
-      <DataTable columns={columns} data={products} />
-    </>
-  );
+  let products = await db.query.product.findMany();
+  let products2 = products.map((p) => ({ ...p, image: faker.image.avatar() }));
+  return <ProductsTable columns={columns} data={products2} />;
 }
