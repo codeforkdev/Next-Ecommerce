@@ -1,6 +1,6 @@
-import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Nav from "./Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full">
-      {children}
-    </html>
+    <body className={inter.className + " h-full flex"}>
+      <div className="w-60 border-r shrink-0 border-b sticky top-0 z-50  mb-10 h-full">
+        <Nav />
+      </div>
+      <div className="flex-1 w-full px-4 sm:px-0 mx-auto">{children}</div>
+    </body>
   );
 }
